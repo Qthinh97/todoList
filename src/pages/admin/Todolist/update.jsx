@@ -1,17 +1,16 @@
 import React, { useState } from "react";
-import { Form, Input, Card, Button } from "antd";
+import { Form, Input, Card, Button, Space } from "antd";
+import { useDispatch, useSelector } from "react-redux";
 
 function Update(props) {
   const [isUpdate, setIsUpdate] = useState(false);
-
   const [updateForm] = Form.useForm();
-
   const { title, content, id, handleUpdateData, handleDeleteData } = props;
 
   const renderTodoListData = () => {
     if (!isUpdate) {
       return (
-        <Card>
+        <Card size="small" style={{ marginTop: "16px" }}>
           <h3>Title: {title}</h3>
           <h4>Content: {content}</h4>
         </Card>
@@ -34,6 +33,7 @@ function Update(props) {
           label="Title"
           layout="vertical"
           name="title"
+          validateFirst
           rules={[
             {
               required: true,
@@ -57,6 +57,7 @@ function Update(props) {
           label="Content"
           layout="vertical"
           name="content"
+          validateFirst
           rules={[
             {
               required: true,
@@ -78,21 +79,23 @@ function Update(props) {
   return (
     <Card>
       {renderTodoListData()}
-      {isUpdate ? (
-        <>
-          <Button type="primary" onClick={() => updateForm.submit()}>
-            Save
+      <Space>
+        {isUpdate ? (
+          <>
+            <Button type="primary" onClick={() => updateForm.submit()}>
+              Save
+            </Button>
+            <Button onClick={() => setIsUpdate(false)}>Cancel</Button>
+          </>
+        ) : (
+          <Button type="primary" onClick={() => setIsUpdate(true)}>
+            Update
           </Button>
-          <Button onClick={() => setIsUpdate(false)}>Cancel</Button>
-        </>
-      ) : (
-        <Button type="primary" onClick={() => setIsUpdate(true)}>
-          Update
+        )}
+        <Button danger onClick={() => handleDeleteData(id)}>
+          Delete
         </Button>
-      )}
-      <Button danger onClick={(id) => handleDeleteData(id)}>
-        Delete
-      </Button>
+      </Space>
     </Card>
   );
 }

@@ -1,23 +1,57 @@
 import * as S from "./styles";
-import React from "react";
+import React, { Fragment } from "react";
 import { Form, Card, Input, Button } from "antd";
 import Update from "./update";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  createToDoListAction,
+  updateToDoListAction,
+  deleteToDoListAction,
+} from "../../../redux/action";
+import { v4 as uuidv4 } from "uuid";
 
 function TodoList(props) {
-  const { listItem, handleAddItem, handleUpdateData, handleDeleteData } = props;
+  const dispatch = useDispatch();
+  const { todoList } = useSelector((state) => state.list);
+
   const renderFormData = () => {
-    return listItem.map((item) => {
+    return todoList.map((item) => {
       return (
-        <Update
-          key={item.id}
-          id={item.id}
-          title={item.title}
-          content={item.content}
-          handleUpdateData={handleUpdateData}
-          handleDeleteData={handleDeleteData}
-        />
+        <Fragment key={item.id}>
+          <Update
+            id={item.id}
+            title={item.title}
+            content={item.content}
+            handleUpdateData={handleUpdateData}
+            handleDeleteData={handleDeleteData}
+          />
+        </Fragment>
       );
     });
+  };
+
+  const handleAddItem = (values) => {
+    dispatch(
+      createToDoListAction({
+        id: uuidv4(),
+        title: values.title,
+        content: values.content,
+      })
+    );
+  };
+
+  const handleUpdateData = (values, id) => {
+    const index = todoList.findIndex((item) => item.id === id);
+    const newToDoList = [...todoList];
+    newToDoList.splice(index, 1, values);
+    dispatch(updateToDoListAction(newToDoList));
+  };
+
+  const handleDeleteData = (id) => {
+    const index = todoList.findIndex((item) => item.id === id);
+    const newToDoList = [...todoList];
+    newToDoList.splice(index, 1);
+    dispatch(deleteToDoListAction(newToDoList));
   };
 
   return (

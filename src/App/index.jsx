@@ -19,32 +19,6 @@ import TodoList from "../pages/admin/Todolist";
 
 function App() {
   const { theme } = useSelector((state) => state.common);
-  const [listItem, setListItem] = useState([]);
-
-  const handleAddItem = (values) => {
-    const newTodo = {
-      ...values,
-      id: uuidv4(),
-    };
-    const newTodoList = [newTodo, ...listItem];
-    setListItem(newTodoList);
-  };
-
-  const handleUpdateData = (values, id) => {
-    const newTodoList = [...listItem];
-    const newTodo = {
-      ...values,
-      id: id,
-    };
-    const index = listItem.findIndex((item) => item.id === id);
-    newTodoList.splice(index, 1, newTodo);
-    setListItem(newTodoList);
-  };
-
-  const handleDeleteData = (id) => {
-    const newTodoList = listItem.filter((item) => item.id !== id);
-    setListItem(newTodoList);
-  };
 
   return (
     <ThemeProvider theme={theme === "light" ? light : dark}>
@@ -57,10 +31,10 @@ function App() {
                 path={ROUTES.ADMIN.TODOLIST}
                 element={
                   <TodoList
-                    listItem={listItem}
-                    handleAddItem={handleAddItem}
-                    handleUpdateData={handleUpdateData}
-                    handleDeleteData={handleDeleteData}
+                  // listItem={listItem}
+                  // handleAddItem={handleAddItem}
+                  // handleUpdateData={handleUpdateData}
+                  // handleDeleteData={handleDeleteData}
                   />
                 }
               />

@@ -9,14 +9,6 @@ function Sidebar(props) {
   const { pathname } = useLocation();
   const SIDEBAR_ITEMS = [
     {
-      title: "HomePage",
-      path: ROUTES.USER.HOME,
-    },
-    {
-      title: "About",
-      path: ROUTES.USER.ABOUT,
-    },
-    {
       title: "Login",
       path: ROUTES.LOGIN,
     },
