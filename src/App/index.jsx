@@ -38,7 +38,7 @@ function App() {
             <Route element={<LoginPage />}>
               <Route path={ROUTES.LOGIN} element={<LoginPage />} />
             </Route>
-            <Route path="*" element={<div>404 not found 456</div>}></Route>
+            <Route path="*" element={<div>404 not found 123</div>}></Route>
           </Routes>
           {/* <button onClick={() => setTheme("light")}>Light</button>
           <button onClick={() => setTheme("dark")}>Dark</button> */}
