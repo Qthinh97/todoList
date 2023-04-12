@@ -3,8 +3,6 @@ import { dark, light } from "../themes";
 import { useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
 import * as S from "./styles";
-import { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 import { ROUTES } from "../constants/routes";
 
 import "../App.css";
@@ -27,17 +25,7 @@ function App() {
           <Routes>
             <Route element={<AdminLayout />}>
               <Route path={ROUTES.ADMIN.DASHBOARD} element={<Dashboard />} />
-              <Route
-                path={ROUTES.ADMIN.TODOLIST}
-                element={
-                  <TodoList
-                  // listItem={listItem}
-                  // handleAddItem={handleAddItem}
-                  // handleUpdateData={handleUpdateData}
-                  // handleDeleteData={handleDeleteData}
-                  />
-                }
-              />
+              <Route path={ROUTES.ADMIN.TODOLIST} element={<TodoList />} />
             </Route>
             <Route element={<UserLayout />}>
               <Route path={ROUTES.USER.HOME} element={<HomePage />} />
@@ -50,6 +38,7 @@ function App() {
             <Route element={<LoginPage />}>
               <Route path={ROUTES.LOGIN} element={<LoginPage />} />
             </Route>
+            <Route path="*" element={<div>404 not found</div>}></Route>
           </Routes>
           {/* <button onClick={() => setTheme("light")}>Light</button>
           <button onClick={() => setTheme("dark")}>Dark</button> */}

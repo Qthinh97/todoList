@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import { Form, Input, Card, Button, Space } from "antd";
 import { useDispatch, useSelector } from "react-redux";
+import {
+  updateToDoListAction,
+  deleteToDoListAction,
+} from "../../../redux/action";
 
-function Update(props) {
+function Update({ id, title, content }) {
   const [isUpdate, setIsUpdate] = useState(false);
   const [updateForm] = Form.useForm();
-  const { title, content, id, handleUpdateData, handleDeleteData } = props;
+  const dispatch = useDispatch();
 
   const renderTodoListData = () => {
     if (!isUpdate) {
@@ -25,7 +29,7 @@ function Update(props) {
           content: content,
         }}
         onFinish={(values) => {
-          handleUpdateData(values, id);
+          dispatch(updateToDoListAction({ id, values }));
           setIsUpdate(false);
         }}
       >
@@ -92,7 +96,7 @@ function Update(props) {
             Update
           </Button>
         )}
-        <Button danger onClick={() => handleDeleteData(id)}>
+        <Button danger onClick={() => dispatch(deleteToDoListAction({ id }))}>
           Delete
         </Button>
       </Space>

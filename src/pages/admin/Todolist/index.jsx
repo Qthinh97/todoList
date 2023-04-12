@@ -3,55 +3,23 @@ import React, { Fragment } from "react";
 import { Form, Card, Input, Button } from "antd";
 import Update from "./update";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  createToDoListAction,
-  updateToDoListAction,
-  deleteToDoListAction,
-} from "../../../redux/action";
+import { createToDoListAction } from "../../../redux/action";
 import { v4 as uuidv4 } from "uuid";
 
-function TodoList(props) {
-  const dispatch = useDispatch();
+function TodoList() {
+  const [addForm] = Form.useForm();
   const { todoList } = useSelector((state) => state.list);
+  const dispatch = useDispatch();
+  const { Search } = Input;
 
   const renderFormData = () => {
     return todoList.map((item) => {
       return (
         <Fragment key={item.id}>
-          <Update
-            id={item.id}
-            title={item.title}
-            content={item.content}
-            handleUpdateData={handleUpdateData}
-            handleDeleteData={handleDeleteData}
-          />
+          <Update id={item.id} title={item.title} content={item.content} />
         </Fragment>
       );
     });
-  };
-
-  const handleAddItem = (values) => {
-    dispatch(
-      createToDoListAction({
-        id: uuidv4(),
-        title: values.title,
-        content: values.content,
-      })
-    );
-  };
-
-  const handleUpdateData = (values, id) => {
-    const index = todoList.findIndex((item) => item.id === id);
-    const newToDoList = [...todoList];
-    newToDoList.splice(index, 1, values);
-    dispatch(updateToDoListAction(newToDoList));
-  };
-
-  const handleDeleteData = (id) => {
-    const index = todoList.findIndex((item) => item.id === id);
-    const newToDoList = [...todoList];
-    newToDoList.splice(index, 1);
-    dispatch(deleteToDoListAction(newToDoList));
   };
 
   return (
@@ -59,9 +27,13 @@ function TodoList(props) {
       <Card>
         <Form
           name="todolist"
+          form={addForm}
           labelCol={{ span: 2 }}
           wrapperCol={{ span: 22 }}
-          onFinish={(values) => handleAddItem(values)}
+          onFinish={(values) => {
+            dispatch(createToDoListAction(values));
+            addForm.resetFields();
+          }}
         >
           <Form.Item
             label="Title"
@@ -108,6 +80,15 @@ function TodoList(props) {
           </Button>
         </Form>
       </Card>
+      <Search
+        placeholder="input search text"
+        style={{
+          width: "100%",
+          font: "24px",
+        }}
+        // onSearch={ }
+        enterButton
+      />
       <div>{renderFormData()}</div>
     </div>
   );
