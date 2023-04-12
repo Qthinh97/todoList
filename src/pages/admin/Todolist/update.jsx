@@ -96,7 +96,11 @@ function Update({ id, title, content }) {
             Update
           </Button>
         )}
-        <Button danger onClick={() => dispatch(deleteToDoListAction({ id }))}>
+        <Button
+          danger
+          type="primary"
+          onClick={() => dispatch(deleteToDoListAction({ id: id }))}
+        >
           Delete
         </Button>
         <Button danger onClick={() => dispatch(deleteToDoListAction({ id }))}>
